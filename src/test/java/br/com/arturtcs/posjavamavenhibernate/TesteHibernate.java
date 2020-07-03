@@ -21,10 +21,10 @@ public class TesteHibernate {
 
 		UsuarioPessoa pessoa = new UsuarioPessoa();
 
-		pessoa.setEmail("arturtarcisio1@gmail.com");
-		pessoa.setIdade(27);
-		pessoa.setLogin("arturtcs");
-		pessoa.setNome("Artur Tarcísio 4");
+		pessoa.setEmail("murilo@gmail.com");
+		pessoa.setIdade(2);
+		pessoa.setLogin("murilo");
+		pessoa.setNome("Murilo");
 		pessoa.setSenha("hagf");
 		pessoa.setSobrenome("Casé da Silva");
 
@@ -34,9 +34,11 @@ public class TesteHibernate {
 	}
 
 	@Test
-	public void daoGenericPesquisar2() {
+	public void daoGenericPesquisar() {
 		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();
-		System.out.println(dao.pesquisar(1L, UsuarioPessoa.class));
+		
+		UsuarioPessoa pessoa = dao.pesquisar(1L, UsuarioPessoa.class);
+		System.out.println(pessoa);
 	}
 
 	@Test
@@ -45,8 +47,8 @@ public class TesteHibernate {
 
 		UsuarioPessoa pessoa = dao.pesquisar(1L, UsuarioPessoa.class);
 
-		pessoa.setIdade(28);
-		pessoa.setSenha("eueueueu");
+		pessoa.setIdade(27);
+		pessoa.setSenha("kkkkkk");
 
 		pessoa = dao.updateMerge(pessoa);
 
@@ -57,8 +59,9 @@ public class TesteHibernate {
 	@Test
 	public void daoGenericDelete() {
 		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();		
-		dao.deletarPorId(2L, UsuarioPessoa.class);
+		dao.deletarPorId(5L, UsuarioPessoa.class);
 		System.out.println("Deletado com sucesso!");
+		
 	}
 
 	
@@ -145,18 +148,45 @@ public class TesteHibernate {
 	public void testeGravaTelefone() {
 		DaoGeneric dao = new DaoGeneric();
 		
-		UsuarioPessoa pessoa = (UsuarioPessoa) dao.pesquisar(1L, UsuarioPessoa.class);
+		UsuarioPessoa pessoa = (UsuarioPessoa) dao.pesquisar(7L, UsuarioPessoa.class);
 		
 		TelefoneUser fone = new TelefoneUser();
 		fone.setTipo("celular");
-		fone.setNumero("(81)983351902");
+		fone.setNumero("(81)988709080");
 		fone.setUsuarioPessoa(pessoa);
 		
 		dao.salvar(fone);
 		
-//		System.out.println("Telefone salvo com sucesso!");
-//		System.out.println(fone);
-//		System.out.println(pessoa);
+		System.out.println("Telefone salvo com sucesso!");
+		System.out.println(fone);
+		System.out.println(pessoa);
+		
+	}
+	
+	@Test
+	public void testeConsultaTelefone() {
+		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();
+		
+		UsuarioPessoa pessoa = (UsuarioPessoa) dao.pesquisar(1L, UsuarioPessoa.class);
+		
+		for(TelefoneUser telefones : pessoa.getTelefoneUsers()) {
+			//System.out.println(telefones);
+			System.out.println(telefones.getNumero());
+			System.out.println(telefones.getTipo());
+			System.out.println(telefones.getUsuarioPessoa().getNome());
+			System.out.println(telefones.getUsuarioPessoa().getIdade());
+			System.out.println("----------------------------------------------------------------------------");
+		}
+	}
+	
+	@Test
+	public void listarTelefones() {
+		DaoGeneric<TelefoneUser> dao = new DaoGeneric<TelefoneUser>();
+		List<TelefoneUser> lista = dao.listar(TelefoneUser.class);
+		for(TelefoneUser telefones : lista) {
+			System.out.println(telefones);
+			System.out.println("-----------------------------------------------------------------------------");
+		}
 		
 	}
 	

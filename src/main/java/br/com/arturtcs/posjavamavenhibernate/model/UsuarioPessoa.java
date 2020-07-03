@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +31,7 @@ public class UsuarioPessoa implements Serializable {
 	private String senha;
 	private int idade;
 
-	@OneToMany(mappedBy = "usuarioPessoa")
+	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER)
 	private List<TelefoneUser> telefoneUsers;
 
 	public UsuarioPessoa() {
@@ -139,8 +140,7 @@ public class UsuarioPessoa implements Serializable {
 	@Override
 	public String toString() {
 		return "UsuarioPessoa [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email
-				+ ", login=" + login + ", senha=" + senha + ", idade=" + idade + ", telefoneUsers=" + telefoneUsers
-				+ "]";
+				+ ", login=" + login + ", senha=" + senha + ", idade=" + idade + "]";
 	}
 
 	
