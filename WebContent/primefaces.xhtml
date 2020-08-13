@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Projeto JSF</title>
+</h:head>
+
+<h:body>
+
+	<h:form>
+		<p:breadCrumb>
+			<p:menuitem/>
+			<p:menuitem value="Página JSF" action="index.jsf"/>
+			<p:menuitem value="Página PrimeFaces" action="primefaces.jsf"/>
+		</p:breadCrumb>
+	</h:form>
+
+	<h:form>
+	
+		<p:messages autoUpdate="true" showSummary="false"/>
+		
+		<br/>
+		<br/>
+			
+		<h:panelGrid columns="2">
+		
+			<p:outputLabel rendered="false">Id:</p:outputLabel>
+			<p:inputText readonly="true" rendered="false" 
+				value="#{usuarioPessoaManagedBean.usuarioPessoa.id}" />
+			
+			<p:outputLabel>Nome:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.nome}"
+				required="true"
+				requiredMessage="Favor informar um nome!" />
+			
+			<p:outputLabel>Sobrenome:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.sobrenome}"
+				required="true"
+				requiredMessage="Informe o sobrenome!"/>
+			
+			<p:outputLabel>Idade:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.idade}"/>
+						
+			<p:outputLabel>Email:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.email}"/>
+			
+			<p:outputLabel>Login:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManagedBean.usuarioPessoa.login}"/>
+			
+			<p:outputLabel>Senha:</p:outputLabel>
+			<p:password value="#{usuarioPessoaManagedBean.usuarioPessoa.senha}" feedback="true"/>			
+			
+		</h:panelGrid>	
+		<br/>
+		
+		<p:commandButton value="Salvar" action="#{usuarioPessoaManagedBean.salvar}"/>
+		<p:commandButton value="Novo" action="#{usuarioPessoaManagedBean.novo}"/>
+		
+		<br/>
+		<br/>
+			
+		<p:dataTable value="#{usuarioPessoaManagedBean.list}" var="user" cellpadding="10" border="1">
+			
+			<f:facet name="header">Lista de usuários</f:facet>
+			
+			<p:column headerText="ID" rendered="false">
+				<h:outputText value="#{user.id}"/>
+			</p:column>
+			
+			<p:column headerText="NOME">				
+				<h:outputText value="#{user.nome}"/>
+			</p:column>
+			
+			<p:column headerText="SOBRENOME">
+				<f:facet name="header">Sobrenome</f:facet>
+				<h:outputText value="#{user.sobrenome}"/>
+			</p:column>
+			
+			<p:column headerText="IDADE">
+				<h:outputText value="#{user.idade}"/>
+			</p:column>
+			
+			<p:column headerText="EMAIL">				
+				<h:outputText value="#{user.email}"/>
+			</p:column>
+			
+			<p:column headerText="LOGIN">
+				<h:outputText value="#{user.login}"/>
+			</p:column>		
+			
+			<p:column headerText="Ação">
+				<p:commandLink value="Editar">					
+					<f:setPropertyActionListener value="#{user}" target="#{usuarioPessoaManagedBean.usuarioPessoa}"/>
+				</p:commandLink>
+			</p:column>
+			
+			<p:column headerText="Ação">
+				<p:commandLink value="Excluir" action="#{usuarioPessoaManagedBean.excluirUsuario}">
+					<f:setPropertyActionListener value="#{user}" target="#{usuarioPessoaManagedBean.usuarioPessoa}"/>
+				</p:commandLink>
+			</p:column>
+		
+		</p:dataTable>	
+			
+	</h:form>
+
+</h:body>
+
+</html>

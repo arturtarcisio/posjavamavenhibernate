@@ -36,7 +36,7 @@ public class TesteHibernate {
 	@Test
 	public void daoGenericPesquisar() {
 		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();
-		
+
 		UsuarioPessoa pessoa = dao.pesquisar(1L, UsuarioPessoa.class);
 		System.out.println(pessoa);
 	}
@@ -58,119 +58,120 @@ public class TesteHibernate {
 
 	@Test
 	public void daoGenericDelete() {
-		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();		
+		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();
 		dao.deletarPorId(5L, UsuarioPessoa.class);
 		System.out.println("Deletado com sucesso!");
-		
+
 	}
 
-	
 	@Test
 	public void daoGenericListar() {
 		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();
 		List<UsuarioPessoa> lista = dao.listar(UsuarioPessoa.class);
-		
-		for(UsuarioPessoa usuarios : lista) {
+
+		for (UsuarioPessoa usuarios : lista) {
 			System.out.println(usuarios);
 			System.out.println("---------------------------------------------------------------------------------");
 		}
-		
+
 	}
-	
+
 	@Test
 	public void testeQueryList() {
 		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();
-		List<UsuarioPessoa> lista = dao.getEm().createQuery(" from UsuarioPessoa where nome = 'Artur Tarcísio'").getResultList();
-		
-		for(UsuarioPessoa usuarios : lista) {
+		List<UsuarioPessoa> lista = dao.getEm().createQuery(" from UsuarioPessoa where nome = 'Artur Tarcísio'")
+				.getResultList();
+
+		for (UsuarioPessoa usuarios : lista) {
 			System.out.println(usuarios);
 			System.out.println("----------------------------------------------------------------------------------");
 		}
 	}
-	
+
 	@Test
 	public void testeQueryListMaxResult() {
 		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();
-		List<UsuarioPessoa> lista = dao.getEm().createQuery(" from UsuarioPessoa order by id").setMaxResults(2).getResultList();
-		for(UsuarioPessoa usuarios : lista) {
+		List<UsuarioPessoa> lista = dao.getEm().createQuery(" from UsuarioPessoa order by id").setMaxResults(2)
+				.getResultList();
+		for (UsuarioPessoa usuarios : lista) {
 			System.out.println(usuarios);
 			System.out.println("-----------------------------------------------------------------------------------");
 		}
 	}
-	
-	//metodo de teste de um parametro que vem passado da tela do usuario
+
+	// metodo de teste de um parametro que vem passado da tela do usuario
 	@Test
 	public void testeQueryListParameter() {
 		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();
-		List<UsuarioPessoa> lista = dao.getEm().createQuery("from UsuarioPessoa where nome = :nome or sobrenome = :sobrenome")
-				.setParameter("nome", "Jubileu")
-				.setParameter("sobrenome", "Casé da Silva")
-				.getResultList();
-		
-		for(UsuarioPessoa usuarios : lista) {
+		List<UsuarioPessoa> lista = dao.getEm()
+				.createQuery("from UsuarioPessoa where nome = :nome or sobrenome = :sobrenome")
+				.setParameter("nome", "Jubileu").setParameter("sobrenome", "Casé da Silva").getResultList();
+
+		for (UsuarioPessoa usuarios : lista) {
 			System.out.println(usuarios);
 			System.out.println("-------------------------------------------------------------------------------");
 		}
 	}
-	
+
 	@Test
 	public void testeQuerySomaIdade() {
 		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();
-		
+
 		Long somaIdade = (Long) dao.getEm().createQuery("select sum(u.idade) from UsuarioPessoa u ").getSingleResult();
-		
+
 		System.out.println("A somda de todas as idades é: " + somaIdade);
 	}
-	
+
 	@Test
 	public void testeNamedQuery1() {
 		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();
 		List<UsuarioPessoa> lista = dao.getEm().createNamedQuery("UsuarioPessoa.findall").getResultList();
-		for(UsuarioPessoa usuarios : lista) {
+		for (UsuarioPessoa usuarios : lista) {
 			System.out.println(usuarios);
-			System.out.println("----------------------------------------------------------------------------------------");
+			System.out.println(
+					"----------------------------------------------------------------------------------------");
 		}
 	}
-	
+
 	@Test
 	public void testeNamedQuery2() {
 		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();
 		List<UsuarioPessoa> lista = dao.getEm().createNamedQuery("UsuarioPessoa.buscaPorNome")
-				.setParameter("nome", "Artur Tarcísio")
-				.getResultList();
-		for(UsuarioPessoa usuarios : lista) {
+				.setParameter("nome", "Artur Tarcísio").getResultList();
+		for (UsuarioPessoa usuarios : lista) {
 			System.out.println(usuarios);
-			System.out.println("----------------------------------------------------------------------------------------");
+			System.out.println(
+					"----------------------------------------------------------------------------------------");
 		}
 	}
-	
+
 	@Test
 	public void testeGravaTelefone() {
 		DaoGeneric dao = new DaoGeneric();
-		
+
 		UsuarioPessoa pessoa = (UsuarioPessoa) dao.pesquisar(7L, UsuarioPessoa.class);
-		
+
 		TelefoneUser fone = new TelefoneUser();
 		fone.setTipo("celular");
 		fone.setNumero("(81)988709080");
 		fone.setUsuarioPessoa(pessoa);
-		
+
 		dao.salvar(fone);
-		
+
 		System.out.println("Telefone salvo com sucesso!");
 		System.out.println(fone);
 		System.out.println(pessoa);
-		
+
 	}
-	
+
 	@Test
 	public void testeConsultaTelefone() {
 		DaoGeneric<UsuarioPessoa> dao = new DaoGeneric<UsuarioPessoa>();
-		
+
 		UsuarioPessoa pessoa = (UsuarioPessoa) dao.pesquisar(1L, UsuarioPessoa.class);
-		
-		for(TelefoneUser telefones : pessoa.getTelefoneUsers()) {
-			//System.out.println(telefones);
+
+		for (TelefoneUser telefones : pessoa.getTelefoneUsers()) {
+			// System.out.println(telefones);
 			System.out.println(telefones.getNumero());
 			System.out.println(telefones.getTipo());
 			System.out.println(telefones.getUsuarioPessoa().getNome());
@@ -178,17 +179,16 @@ public class TesteHibernate {
 			System.out.println("----------------------------------------------------------------------------");
 		}
 	}
-	
+
 	@Test
 	public void listarTelefones() {
 		DaoGeneric<TelefoneUser> dao = new DaoGeneric<TelefoneUser>();
 		List<TelefoneUser> lista = dao.listar(TelefoneUser.class);
-		for(TelefoneUser telefones : lista) {
+		for (TelefoneUser telefones : lista) {
 			System.out.println(telefones);
 			System.out.println("-----------------------------------------------------------------------------");
 		}
-		
+
 	}
-	
-	
+
 }

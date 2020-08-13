@@ -13,8 +13,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQueries({ 
-		@NamedQuery(name = "UsuarioPessoa.findall", query = "select u from UsuarioPessoa u"),
+@NamedQueries({ @NamedQuery(name = "UsuarioPessoa.findall", query = "select u from UsuarioPessoa u"),
 		@NamedQuery(name = "UsuarioPessoa.buscaPorNome", query = "select u from UsuarioPessoa u where u.nome = :nome") })
 public class UsuarioPessoa implements Serializable {
 
@@ -30,15 +29,29 @@ public class UsuarioPessoa implements Serializable {
 	private String login;
 	private String senha;
 	private int idade;
+	private String sexo;
 
 	@OneToMany(mappedBy = "usuarioPessoa", fetch = FetchType.EAGER)
 	private List<TelefoneUser> telefoneUsers;
+
+	private String cep;
+	private String logradouro;
+	private String complemento;
+	private String bairro;
+	private String localidade;
+	private String uf;
+	private String unidade;
+	private String ibge;
+	private String gia;
 
 	public UsuarioPessoa() {
 
 	}
 
-	public UsuarioPessoa(Long id, String nome, String sobrenome, String email, String login, String senha, int idade) {
+	public UsuarioPessoa(Long id, String nome, String sobrenome, String email, String login, String senha, int idade,
+			String sexo, List<TelefoneUser> telefoneUsers, String cep, String logradouro, String complemento,
+			String bairro, String localidade, String uf, String unidade, String ibge, String gia) {
+		super();
 		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
@@ -46,6 +59,17 @@ public class UsuarioPessoa implements Serializable {
 		this.login = login;
 		this.senha = senha;
 		this.idade = idade;
+		this.sexo = sexo;
+		this.telefoneUsers = telefoneUsers;
+		this.cep = cep;
+		this.logradouro = logradouro;
+		this.complemento = complemento;
+		this.bairro = bairro;
+		this.localidade = localidade;
+		this.uf = uf;
+		this.unidade = unidade;
+		this.ibge = ibge;
+		this.gia = gia;
 	}
 
 	public Long getId() {
@@ -104,12 +128,92 @@ public class UsuarioPessoa implements Serializable {
 		this.idade = idade;
 	}
 
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
 	public List<TelefoneUser> getTelefoneUsers() {
 		return telefoneUsers;
 	}
 
 	public void setTelefoneUsers(List<TelefoneUser> telefoneUsers) {
 		this.telefoneUsers = telefoneUsers;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getLogradouro() {
+		return logradouro;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+
+	public String getComplemento() {
+		return complemento;
+	}
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getLocalidade() {
+		return localidade;
+	}
+
+	public void setLocalidade(String localidade) {
+		this.localidade = localidade;
+	}
+
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+
+	public String getUnidade() {
+		return unidade;
+	}
+
+	public void setUnidade(String unidade) {
+		this.unidade = unidade;
+	}
+
+	public String getIbge() {
+		return ibge;
+	}
+
+	public void setIbge(String ibge) {
+		this.ibge = ibge;
+	}
+
+	public String getGia() {
+		return gia;
+	}
+
+	public void setGia(String gia) {
+		this.gia = gia;
 	}
 
 	@Override
@@ -140,9 +244,10 @@ public class UsuarioPessoa implements Serializable {
 	@Override
 	public String toString() {
 		return "UsuarioPessoa [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email
-				+ ", login=" + login + ", senha=" + senha + ", idade=" + idade + "]";
+				+ ", login=" + login + ", senha=" + senha + ", idade=" + idade + ", sexo=" + sexo + ", telefoneUsers="
+				+ telefoneUsers + ", cep=" + cep + ", logradouro=" + logradouro + ", complemento=" + complemento
+				+ ", bairro=" + bairro + ", localidade=" + localidade + ", uf=" + uf + ", unidade=" + unidade
+				+ ", ibge=" + ibge + ", gia=" + gia + "]";
 	}
-
-	
 
 }

@@ -19,7 +19,9 @@ public class DaoGeneric<T> {
 	}
 
 	public T pesquisar(Long id, Class<T> entidade) {
-		T entidadeRetornada = (T) em.find(entidade, id);
+		em.clear(); //tirar de cache da minha lista de telefone
+		//T entidadeRetornada = (T) em.find(entidade, id);
+		T entidadeRetornada = (T) em.createQuery("from " + entidade.getSimpleName() + " where id = " + id).getSingleResult();
 		return entidadeRetornada;
 	}
 
@@ -32,12 +34,14 @@ public class DaoGeneric<T> {
 		return entidadeSalva;
 	}
 
-	public void deletarPorId(Long id, Class<T> entidade) {
+	public void deletarPorId(T entidade) throws Exception {
+		Object id = HibernateUtil.getPrimaryKey(entidade);
 		EntityTransaction transaction = em.getTransaction();
 		transaction.begin();
-		T entidadeRetornada = (T) em.find(entidade, id);
-		em.remove(entidadeRetornada);
-		transaction.commit();
+		em.createNativeQuery(
+				"delete from " + entidade.getClass().getSimpleName().toLowerCase() + 
+				" where id = " + id).executeUpdate(); // delete
+		transaction.commit(); // grava a alteração (exclusão) no banco
 	}
 	
 	public List<T> listar(Class<T> entidade){
